@@ -1,0 +1,40 @@
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.8.1/bootstrap-table.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+<table data-toggle = "table" data-pagination = "true">
+
+	<thead>		<tr>
+
+			<th data-sortable="true">datetime</th>
+			<th data-sortable="true">transaction_id</th>
+			<th data-sortable="true">session_id</th>
+			<th data-sortable="true">system_id</th>
+			<th data-sortable="true">app_id</th>
+			<th data-sortable="true">msisdn</th>
+			<th data-sortable="true">menu_classification</th>
+			<th data-sortable="true">menu_description</th>
+			<th data-sortable="true">category</th>
+			<th data-sortable="true">user_language</th>
+			<th data-sortable="true">ussd_transaction_type</th>
+			<th data-sortable="true">user_message_sent_time</th>
+			<th data-sortable="true">user_response_received_time</th>
+			<th data-sortable="true">user_response_duration</th>
+			<th data-sortable="true">session_start_date_time</th>
+			<th data-sortable="true">session_end_date_time</th>
+			<th data-sortable="true">session_duration</th>
+			<th data-sortable="true">service_code</th>
+			<th data-sortable="true">complete_path</th>
+			<th data-sortable="true">charged_amount</th>
+			<th data-sortable="true">location</th>
+			<th data-sortable="true">system_status_code</th>
+			<th data-sortable="true">system_status_description</th>
+			<th data-sortable="true">ussd_status_code</th>
+			<th data-sortable="true">ussd_status_description</th>
+			<th data-sortable="true">sms_status_code</th>
+			<th data-sortable="true">sms_status_description</th>
+
+		</tr>
+	</thead>
+
+	<tbody>
+
