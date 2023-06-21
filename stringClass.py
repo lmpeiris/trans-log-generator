@@ -25,13 +25,13 @@ if api.distrib == 'static' and api.field_format == 'string':
 
 
 if api.distrib == 'fake' and api.field_format == 'string':
-    from faker import Factory
+    from faker import Faker
     if len(api.value_args) > 1:
         locale = api.value_args[1]
         print("INFO - using " + str(locale) + " as locale for generating --> " + str(api.value_args[0]))
-        fake = Factory.create(locale)
+        fake = Faker(locale)
     else:
-        fake = Factory.create()
+        fake = Faker()
 
     fake_method = api.value_args[0]
     print("INFO - generating values for " + str(fake_method))
