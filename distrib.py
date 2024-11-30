@@ -5,67 +5,25 @@ import numpy as np
 import time
 import datetime
 from ScriptApiClass import ScriptTransformApi
+sys.path.insert(0, 'lib')
+from DistributionClass import DistributionClass
 
 # TODO: update random generator for new versions of numpy, see https://numpy.org/doc/stable/reference/random/index.html
 
 api = ScriptTransformApi(sys.argv)
 # following decides whether to use numpy write or not
 numpy_write = True
-
-# ------- distribution population of data -----------------
-# populating a numpy array according to our distribution, there's a lot more
-if api.distrib == 'normal':
-    mean = float(api.value_args[0])
-    standard_deviation = float(api.value_args[1])
-    ran_array = np.random.normal(mean, standard_deviation, api.record_count)
-
-if api.distrib == 'exponential':
-    scale_parameter = float(api.value_args[0])
-    ran_array = np.random.exponential(scale_parameter, api.record_count)
-
-if api.distrib == 'poisson':
-    lamda_value = float(api.value_args[0])
-    ran_array = np.random.poisson(lamda_value, api.record_count)
-
-if api.distrib == 'binomial':
-    turns = float(api.value_args[0])
-    probability = float(api.value_args[1])
-    ran_array = np.random.binomial(turns, probability, api.record_count)
-
-if api.distrib == 'chi_square':
-    degrees_freedom = int(api.value_args[0])
-    ran_array = np.random.chisquare(degrees_freedom, api.record_count)
-
-if api.distrib == 'random':
-    lower_bound = int(api.value_args[0])
-    upper_bound = int(api.value_args[1])
-    if api.field_format == 'integer':
-        ran_array = np.random.random_integers(lower_bound, upper_bound, api.record_count)
-    else:
-        ran_array = (upper_bound - lower_bound) * np.random.random(api.record_count) + lower_bound
-
-# for increment we are using a standard list
-if api.distrib == 'increment':
-    lower_bound = int(api.value_args[0])
-    increment_value = int(api.value_args[1])
-    ran_array = np.arange(lower_bound, int(lower_bound + api.record_count * increment_value), increment_value)
-
-if api.distrib == 'static':
-    static_label = float(api.value_args[0])
-    if api.field_format == 'integer' or api.field_format == 'double':
-        ran_array = np.empty(api.record_count)
-        ran_array.fill(static_label)
+distribution = DistributionClass(api.distrib, api.field_format, api.record_count, api.value_args)
+ran_array = distribution.get_numpy_array()
 
 # -------- conversions and writing to files ------------------------------------
-#format and write the array to the file
-filename = "temp/" + api.field + ".csv"
+filename = api.outfile
 
 if api.field_format == 'equation':
     from sympy.abc import x
     from sympy.parsing.sympy_parser import parse_expr
     math_expression = api.value_args[3]
     parsed_expression = parse_expr(math_expression)
-    print(ran_array)
     count = 0
     for i in ran_array:
         ran_array[count] = parsed_expression.evalf(subs={x: i})

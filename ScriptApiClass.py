@@ -40,7 +40,8 @@ class ScriptApiClass:
             if int(flag_args[1]) == 1:
                 self.isPlotted = True
 
-
+        # output file name
+        self.outfile = "temp/" + self.field + ".csv"
         print("DEBUG - ScriptApiClass: Received api keys field | field_format | distrib | record count ...... ")
         print(api_args)
         print("DEBUG - ScriptApiClass: Received distribution argument values .......")
