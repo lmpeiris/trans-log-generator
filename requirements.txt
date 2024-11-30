@@ -1,0 +1,8 @@
+numpy
+pandas
+sympy
+Faker
+matplotlib
+airspeed
+pyftpdlib
+pulsar

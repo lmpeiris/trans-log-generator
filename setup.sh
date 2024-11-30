@@ -45,11 +45,6 @@ then
 	perl -e "use $library_name"
 	search_result=$?
 fi
-if [ "$language" = "python" ]
-then
-	$pip3_executable show $library_name
-	search_result=$?
-fi
 
 if [ $search_result -eq 0 ]
 then
@@ -65,11 +60,6 @@ else
 		if [ "$language" = "perl" ]
 		then
 			cpan $library_name
-			install_result=$?
-		fi
-		if [ "$language" = "python" ]
-		then
-			$pip3_executable install $library_name
 			install_result=$?
 		fi
 
@@ -88,6 +78,8 @@ echo "========================================================"
 }
 done
 
-echo "extracting dictionaries....."
-tar -xvf refer-csv/dictionaries.tar.xz
-
+echo "downloading dictionaries....."
+wget https://drive.google.com/file/d/1k6nb97vNimGLQ_RUNfnWyJTSd1Ap8QIx/view?usp=sharing -O refer-csv/dictionaries.tar.xz
+cd refer-csv
+tar -xvf dictionaries.tar.xz
+cd ..

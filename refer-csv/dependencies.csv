@@ -1,10 +1,2 @@
 Math::Random|perl|1|This enables categorical data (enum) / one to many relations (refer) and many to many (m2m) - heaviliy important|ubuntu - libmath-random-perl
 String::Random|perl|0|regex and pattern based string generation (minor importance)|fedora package - perl-String-Random| ubuntu package - libstring-random-perl
-numpy|python|1|This is the core library for numeric distributions - heaviliy important|packages available| search for python3 numpy
-pandas|python|0|Used for timeseries distribution - minto importance|packages available| search for python3 pandas
-sympy|python|0|Used for algebric equation based distributions only - minor importance|packages available| search for python3 scipy
-fake-factory|python|0|Used for fake name| address etc generation in many locales - minor importance|no standard packages available.
-matplotlib|python|0|Used for plotting benchmark results and showing actual distribution of numerical fields|packages available| search for matplotlib for python3
-airspeed|python|1|Used for almost all templating and post processing to other formats ex:json|no standard packages|no options
-pyftpdlib|python|0|Used to make files available via a ftp server|no standard packages|no standard packages|no options
-pulsar|python|1|Backbone of async http client|no standard packages|no standard packages|no options
