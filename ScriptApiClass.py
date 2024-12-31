@@ -1,3 +1,5 @@
+import json
+
 
 class ScriptApiClass:
 
@@ -8,8 +10,7 @@ class ScriptApiClass:
         if len(self.value_args) < 1:
             raise ScriptApiClassException("Missing value arguments. At least one required")
 
-
-        #api key fields
+        # api key fields
         if len(api_args) < 4:
             raise ScriptApiClassException("Missing API arguments. Require 4 found " + str(len(api_args)))
         else:
@@ -23,9 +24,8 @@ class ScriptApiClass:
         if len(input_args) < 4:
             raise ScriptApiClassException("Missing flag arguments")
 
-
         flag_args = input_args[3].split('|')
-        #flag fields
+        # flag fields
         if len(flag_args) < 1:
             raise ScriptApiClassException("At least one flag is required")
         else:
@@ -50,6 +50,7 @@ class ScriptApiClass:
         print(flag_args)
 
         # pandas can handle now on it's own, so don't need to convert for timeseries. For others, convert.
+        # time series is a unique distribution with uniform increment, different from distrib.py
         if self.distrib != "timeseries":
             for i in range(0, len(self.value_args)-1):
                 if self.value_args[i] == 'now':
@@ -58,6 +59,24 @@ class ScriptApiClass:
                     if self.field_format == 'millis' or self.field_format == 'micros':
                         self.value_args[i] = 1000000 * self.value_args[i]
 
+    def read_adv_conf(self) -> dict:
+        adv_conf_filename = 'refer-csv/' + self.field + '.json'
+        ad_conf = {}
+        print('Opening json advanced field configuration: ' + adv_conf_filename)
+        with open(adv_conf_filename, 'r') as f:
+            ad_conf = json.load(f)
+            if 'elements' not in ad_conf:
+                raise ScriptApiClassException('elements list should be present in advanced config file')
+        return ad_conf
+
+    def list_bulk_write(self, ran_list: list[str], buffer_size_mb: int = 4):
+        # TODO: find an efficient way of doing this
+        # https://stackoverflow.com/questions/37732466/python-csv-optimizing-csv-read-and-write
+        print('INFO: dumping ' + str(len(ran_list)) + ' records to output file: ' + self.outfile)
+        with open(self.outfile, "w", 1024 * 1024 * buffer_size_mb) as fd:
+            for i in ran_list:
+                fd.write(i + '\n')
+        fd.close()
 
 class ScriptApiClassException(Exception):
     pass

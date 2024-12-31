@@ -1,0 +1,17 @@
+{
+  "type": "enum",
+  "elements": [
+    {
+      "enum": "agree",
+      "count": 45
+    },
+    {
+      "enum": "deny",
+      "count": 30
+    },
+    {
+      "enum": "none",
+      "count": 25
+    }
+  ]
+}
