@@ -1,9 +1,11 @@
 import json
+import time
 
 
 class ScriptApiClass:
 
     def __init__(self, input_args):
+        self.timer = 0
         api_args = input_args[1].split('|')
         self.value_args = input_args[2].split('|')
 
@@ -59,6 +61,24 @@ class ScriptApiClass:
                     if self.field_format == 'millis' or self.field_format == 'micros':
                         self.value_args[i] = 1000000 * self.value_args[i]
 
+    def start_timer(self):
+        self.timer = time.time()
+
+    def stop_timer(self, reason: str, restart_timer: bool = True) -> float:
+        # TODO: other lmpeiris projects inherit this from custom logging library
+        start_time = self.timer
+        end_time = time.time()
+        time_elapsed = end_time - start_time
+        seconds = time_elapsed // 1000
+        minutes = seconds // 60
+        seconds %= 60
+        time_elapsed %= 1000
+        time_str = f"{minutes:02d}:{seconds:02d}.{time_elapsed:03d}"
+        print('Execution time for ' + reason + ' in minutes:seconds:millis ' + time_str)
+        if restart_timer:
+            self.start_timer()
+        return time_elapsed
+
     def read_adv_conf(self) -> dict:
         adv_conf_filename = 'refer-csv/' + self.field + '.json'
         ad_conf = {}
@@ -77,6 +97,7 @@ class ScriptApiClass:
             for i in ran_list:
                 fd.write(i + '\n')
         fd.close()
+
 
 class ScriptApiClassException(Exception):
     pass
