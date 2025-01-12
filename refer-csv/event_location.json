@@ -1,0 +1,20 @@
+{
+  "type": "enum",
+  "elements": [
+    {
+      "enum": "Galle"
+    },
+    {
+      "enum": "Colombo"
+    },
+    {
+      "enum": "Kandy"
+    },
+    {
+      "enum": "Matara"
+    },
+    {
+      "enum": "Jaffna"
+    }
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "type": "enum",
+  "elements": [
+    {
+      "enum": "Web"
+    },
+    {
+      "enum": "USSD"
+    },
+    {
+      "enum": "WinMobile"
+    },
+    {
+      "enum": "Symbian"
+    },
+    {
+      "enum": "Andriod"
+    },
+    {
+      "enum": "WAP"
+    }
+  ]
+}

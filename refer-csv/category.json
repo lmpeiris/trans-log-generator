@@ -1,0 +1,14 @@
+{
+  "type": "enum",
+  "elements": [
+    {
+      "enum": "Prepaid"
+    },
+    {
+      "enum": "Delegated"
+    },
+    {
+      "enum": "PostPaid"
+    }
+  ]
+}

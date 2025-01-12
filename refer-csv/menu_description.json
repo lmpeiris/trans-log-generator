@@ -1,0 +1,17 @@
+{
+  "type": "enum",
+  "elements": [
+    {
+      "enum": "menu1"
+    },
+    {
+      "enum": "menu2"
+    },
+    {
+      "enum": "menu3"
+    },
+    {
+      "enum": "menu4"
+    }
+  ]
+}
