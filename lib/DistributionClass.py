@@ -73,7 +73,7 @@ class DistributionClass:
                     ran_array = self.get_random_integers(0, 99, self.record_count)
 
                 case 'roundrobin':
-                    element_array = np.arange(self.value_args[0], self.value_args[1]+1)
+                    element_array = np.arange(int(self.value_args[0]), int(self.value_args[1])+1)
                     # find the min repeats required by modulo division
                     num_repeats = (self.record_count // len(element_array)) + 1
                     # repeat and splice to only get the record numbers we need
@@ -102,7 +102,7 @@ class DistributionClass:
         return ran_list
 
     @classmethod
-    def get_enum(cls, element_list, ran_array: Union[list[int], np.ndarray]) -> list:
+    def get_enum(cls, elements_list, ran_array: Union[list[int], np.ndarray]) -> list:
         """ returns a list of enumurated items based on elements defined in numpy array or list,
         according to index list given in ran_array"""
         enum_list = []
@@ -111,9 +111,9 @@ class DistributionClass:
             print('ERROR: max value of ran_array cannot be larger than number of items in element_list')
         else:
             print('INFO: generating enum entries: ' + str(len(ran_array)))
-            print('INFO: unique enum records: ' + str(len(element_list)))
+            print('INFO: unique enum records: ' + str(len(elements_list)))
             for i in ran_array:
-                enum_list.append(element_list[i])
+                enum_list.append(elements_list[i])
         return enum_list
 
     @classmethod

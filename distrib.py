@@ -25,22 +25,45 @@ filename = api.outfile
 if api.field_format == 'enum':
     numpy_write = False
     adv_conf = api.read_adv_conf()
-    elements = adv_conf['elements']
+    elements_list = []
     if api.distrib == 'percentage':
+        elements = adv_conf['elements']
         # very whether counts add up to 100, using generator expression
         total_count = sum(x['count'] for x in elements)
         if total_count == 100:
             print('DEBUG: populating elements list for 100')
             # using outer and inner loops. _ indicates throwaway temp var
             elements_list = [x['enum'] for x in elements for _ in range(x['count'])]
-            # generate enum list
-            ran_list = distribution.get_enum(elements_list, ran_array)
-            api.stop_timer('enum mapping')
-            api.list_bulk_write(ran_list)
-            api.stop_timer('Writing to disk', False)
         else:
             print('ERROR: total count should be 100. current value: ' + str(total_count))
             exit(13)
+    else:
+        if api.value_args[0] != '0':
+            print('WARN: to capture all enum entries, first argument should be zero. Check whether this was intended.')
+        if 'csv_read' in adv_conf:
+            # compile unique values by reading a csv
+            import csv
+            csv_file = adv_conf['csv_read']['csv_file']
+            column_index = adv_conf['csv_read']['column']
+            print('INFO: Reading column: ' + str(column_index) + ' from ' + csv_file)
+            with open(csv_file, 'r') as csvfile:
+                reader = csv.reader(csvfile, delimiter='|')
+                for row in reader:
+                    value = row[column_index]
+                    if value not in elements_list:
+                        elements_list.append(value)
+            print('DEBUG: enum records: ' + str(elements_list))
+        else:
+            elements = adv_conf['elements']
+            elements_list = [x['enum'] for x in elements]
+        # enum matching cannot handle floats
+        if distribution not in ['roundrobin', 'random']:
+            ran_array = ran_array.astype(int)
+    # generate enum list
+    ran_list = distribution.get_enum(elements_list, ran_array)
+    api.stop_timer('enum mapping')
+    api.list_bulk_write(ran_list)
+    api.stop_timer('Writing to disk', False)
 
 
 if api.field_format == 'equation':

@@ -6,6 +6,12 @@ class ScriptApiClass:
 
     def __init__(self, input_args):
         self.timer = 0
+        print('===============')
+        print('Processing by ScriptApiClass')
+        print('===============')
+        print('Call this command for running this script independently for debugging purposes:')
+        print(input_args[0] + ' \'' + input_args[1] + '\' \'' + input_args[2] + '\' \'' + input_args[3] + '\'')
+        print('--------------')
         api_args = input_args[1].split('|')
         self.value_args = input_args[2].split('|')
 
@@ -68,16 +74,16 @@ class ScriptApiClass:
         # TODO: other lmpeiris projects inherit this from custom logging library
         start_time = self.timer
         end_time = time.time()
-        time_elapsed = end_time - start_time
-        seconds = time_elapsed // 1000
-        minutes = seconds // 60
-        seconds %= 60
-        time_elapsed %= 1000
-        time_str = f"{minutes:02d}:{seconds:02d}.{time_elapsed:03d}"
-        print('Execution time for ' + reason + ' in minutes:seconds:millis ' + time_str)
+        # time elapsed comes in seconds
+        t_elapsed = end_time - start_time
+        t_seconds = int(t_elapsed) // 60
+        t_millis = int((t_elapsed - int(t_elapsed)) * 1000)
+        t_minutes = int(t_elapsed/60) // 60
+        print('Execution time for ' + reason + ' in minutes:seconds:millis '
+              + str(t_minutes) + ':' + str(t_seconds) + ':' + str(t_millis))
         if restart_timer:
             self.start_timer()
-        return time_elapsed
+        return t_elapsed
 
     def read_adv_conf(self) -> dict:
         adv_conf_filename = 'refer-csv/' + self.field + '.json'
@@ -85,8 +91,8 @@ class ScriptApiClass:
         print('Opening json advanced field configuration: ' + adv_conf_filename)
         with open(adv_conf_filename, 'r') as f:
             ad_conf = json.load(f)
-            if 'elements' not in ad_conf:
-                raise ScriptApiClassException('elements list should be present in advanced config file')
+            if not ('elements' in ad_conf or 'csv_read' in ad_conf):
+                raise ScriptApiClassException('elements or csv_read should be present in advanced config file')
         return ad_conf
 
     def list_bulk_write(self, ran_list: list[str], buffer_size_mb: int = 4):
