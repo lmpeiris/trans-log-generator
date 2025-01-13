@@ -119,13 +119,8 @@ fi
 ;;
 
 #========================================
-"shuffle_merge")
-echo "DEBUG - redirecting to strinClass.py for shuffle merge operation"
-$python3_command stringClass.py "$field|$field_format|$distrib|$record_count" "$value_args" "$num_repeat"
-;;
-#========================================
-"fake")
-echo "DEBUG - in fake dictionary string distro block. format: $field_format, distrib: $distrib"
+"shuffle_merge"|"fake"|"regex")
+echo "DEBUG - redirecting to strinClass.py for string operation"
 $python3_command stringClass.py "$field|$field_format|$distrib|$record_count" "$value_args" "$num_repeat"
 ;;
 
@@ -142,12 +137,6 @@ cp temp/$copied_field.csv temp/$field.csv
 echo "DEBUG - in common numeric distro block. format: $field_format, distrib: $distrib"
 #perl distrib.pl $field $field_format $distrib $record_count "$arg1" "$arg2" "$arg3"
 $python3_command distrib.py "$field|$field_format|$distrib|$record_count" "$value_args" "$num_repeat|$plot_enabled"
-;;
-
-#========================================
-"pattern"|"regex")
-echo "DEBUG - in pattern / regex distro block. format: $field_format, distrib: $distrib"
-perl string.pl $field $field_format $distrib $record_count $value_args
 ;;
 
 #=============================================

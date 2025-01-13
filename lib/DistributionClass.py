@@ -1,6 +1,4 @@
 import numpy as np
-import time
-import datetime
 from typing import Literal
 from typing import Union
 
@@ -70,7 +68,7 @@ class DistributionClass:
 
                 case 'percentage':
                     print('INFO: generating random integer for 100 elements')
-                    ran_array = self.get_random_integers(0, 99, self.record_count)
+                    ran_array = np.random.random_integers(0, 99, self.record_count)
 
                 case 'roundrobin':
                     element_array = np.arange(int(self.value_args[0]), int(self.value_args[1])+1)
@@ -117,6 +115,32 @@ class DistributionClass:
         return enum_list
 
     @classmethod
-    def get_random_integers(cls, lower_bound, upper_bound, record_count):
+    def get_random_integers(cls, lower_bound, upper_bound, record_count) -> np.ndarray:
+        """Generate random record_count of integers in a given range"""
         ran_array = np.random.random_integers(lower_bound, upper_bound, record_count)
-        return ran_array.tolist()
+        return ran_array
+
+    @classmethod
+    def gen_fake_list(cls, fake_method: str, num_elements: int, locale: str = '') -> list[str]:
+        """ generate list of elements for use with enum using supported fake methods"""
+        elements_list = []
+        from faker import Faker
+        if locale != '':
+            print("INFO - using " + str(locale) + " as locale for generating " + fake_method)
+            fake = Faker(locale)
+        else:
+            fake = Faker()
+        for i in range(0, num_elements, 1):
+            fake_out = getattr(fake, fake_method)()
+            elements_list.append(fake_out)
+        return elements_list
+
+    @classmethod
+    def gen_regex_list(cls, regex: str, num_elements: int) -> list[str]:
+        """ generate list of elements matching the regex provided"""
+        elements_list = []
+        import xeger
+        for i in range(0, num_elements, 1):
+            gen_enum = xeger.xeger(regex)
+            elements_list.append(gen_enum)
+        return elements_list
