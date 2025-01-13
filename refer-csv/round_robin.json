@@ -1,0 +1,17 @@
+{
+  "type": "enum",
+  "elements": [
+    {
+      "enum": "A"
+    },
+    {
+      "enum": "B"
+    },
+    {
+      "enum": "C"
+    },
+    {
+      "enum": "D"
+    }
+  ]
+}

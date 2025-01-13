@@ -8,10 +8,10 @@
 8,ussd_transaction_type,random,1|2
 9,system_status_description,refer,system_status_code|1
 10,mymath,increment,20|1|3|2*x,REPEAT
-11,userId,import,1|1
+#11,userId,import,1|1
 12,Event_Time_Timestamp,random,1346473900|1348979500
 13,destaddress,normal,234705525110|50|0
-14,patterntest,pattern,CCcc!ccn
+#14,patterntest,pattern,CCcc!ccn
 15,regextest,regex,[A-Z]{2}[a-z]{2}.[a-z]{2}\d
 16,user_language,static,en
 17,points,static,1.345|1|3
@@ -33,7 +33,7 @@
 33,ticket_price,normal,250|30|0,PLOT
 34,shuffle_merge_name,shuffle_merge,first_names|last_names
 35,shuffle_address,shuffle_merge,street_names|us_cities|address
-36,round_robin,Robin,1|6
+36,round_robin,roundrobin,0|3
 37,enum_percentage,random,1|3
 38,dupl_check,duplicate,shuffle_merge_name
 39,my_micros,increment,now|2000,REPEAT

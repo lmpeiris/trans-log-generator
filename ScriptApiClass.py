@@ -1,15 +1,24 @@
+import json
+import time
+
 
 class ScriptApiClass:
 
     def __init__(self, input_args):
+        self.timer = 0
+        print('===============')
+        print('Processing by ScriptApiClass')
+        print('===============')
+        print('Call this command for running this script independently for debugging purposes:')
+        print(input_args[0] + ' \'' + input_args[1] + '\' \'' + input_args[2] + '\' \'' + input_args[3] + '\'')
+        print('--------------')
         api_args = input_args[1].split('|')
         self.value_args = input_args[2].split('|')
 
         if len(self.value_args) < 1:
             raise ScriptApiClassException("Missing value arguments. At least one required")
 
-
-        #api key fields
+        # api key fields
         if len(api_args) < 4:
             raise ScriptApiClassException("Missing API arguments. Require 4 found " + str(len(api_args)))
         else:
@@ -23,9 +32,8 @@ class ScriptApiClass:
         if len(input_args) < 4:
             raise ScriptApiClassException("Missing flag arguments")
 
-
         flag_args = input_args[3].split('|')
-        #flag fields
+        # flag fields
         if len(flag_args) < 1:
             raise ScriptApiClassException("At least one flag is required")
         else:
@@ -40,7 +48,8 @@ class ScriptApiClass:
             if int(flag_args[1]) == 1:
                 self.isPlotted = True
 
-
+        # output file name
+        self.outfile = "temp/" + self.field + ".csv"
         print("DEBUG - ScriptApiClass: Received api keys field | field_format | distrib | record count ...... ")
         print(api_args)
         print("DEBUG - ScriptApiClass: Received distribution argument values .......")
@@ -49,6 +58,7 @@ class ScriptApiClass:
         print(flag_args)
 
         # pandas can handle now on it's own, so don't need to convert for timeseries. For others, convert.
+        # time series is a unique distribution with uniform increment, different from distrib.py
         if self.distrib != "timeseries":
             for i in range(0, len(self.value_args)-1):
                 if self.value_args[i] == 'now':
@@ -56,6 +66,43 @@ class ScriptApiClass:
                     self.value_args[i] = int(time.time())
                     if self.field_format == 'millis' or self.field_format == 'micros':
                         self.value_args[i] = 1000000 * self.value_args[i]
+
+    def start_timer(self):
+        self.timer = time.time()
+
+    def stop_timer(self, reason: str, restart_timer: bool = True) -> float:
+        # TODO: other lmpeiris projects inherit this from custom logging library
+        start_time = self.timer
+        end_time = time.time()
+        # time elapsed comes in seconds
+        t_elapsed = end_time - start_time
+        t_seconds = int(t_elapsed) // 60
+        t_millis = int((t_elapsed - int(t_elapsed)) * 1000)
+        t_minutes = int(t_elapsed/60) // 60
+        print('Execution time for ' + reason + ' in minutes:seconds:millis '
+              + str(t_minutes) + ':' + str(t_seconds) + ':' + str(t_millis))
+        if restart_timer:
+            self.start_timer()
+        return t_elapsed
+
+    def read_adv_conf(self) -> dict:
+        adv_conf_filename = 'refer-csv/' + self.field + '.json'
+        ad_conf = {}
+        print('Opening json advanced field configuration: ' + adv_conf_filename)
+        with open(adv_conf_filename, 'r') as f:
+            ad_conf = json.load(f)
+            if not ('elements' in ad_conf or 'csv_read' in ad_conf):
+                raise ScriptApiClassException('elements or csv_read should be present in advanced config file')
+        return ad_conf
+
+    def list_bulk_write(self, ran_list: list[str], buffer_size_mb: int = 4):
+        # TODO: find an efficient way of doing this
+        # https://stackoverflow.com/questions/37732466/python-csv-optimizing-csv-read-and-write
+        print('INFO: dumping ' + str(len(ran_list)) + ' records to output file: ' + self.outfile)
+        with open(self.outfile, "w", 1024 * 1024 * buffer_size_mb) as fd:
+            for i in ran_list:
+                fd.write(i + '\n')
+        fd.close()
 
 
 class ScriptApiClassException(Exception):

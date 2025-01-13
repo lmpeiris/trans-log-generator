@@ -119,62 +119,9 @@ fi
 ;;
 
 #========================================
-"shuffle_merge")
-echo "DEBUG - redirecting to strinClass.py for shuffle merge operation"
+"shuffle_merge"|"fake"|"regex")
+echo "DEBUG - redirecting to strinClass.py for string operation"
 $python3_command stringClass.py "$field|$field_format|$distrib|$record_count" "$value_args" "$num_repeat"
-;;
-#========================================
-"fake")
-echo "DEBUG - in fake dictionary string distro block. format: $field_format, distrib: $distrib"
-$python3_command stringClass.py "$field|$field_format|$distrib|$record_count" "$value_args" "$num_repeat"
-;;
-
-#=======================================
-"random")
-#means random uniform fellows
-echo "INFO - enetered RANDOM block with field format as $field_format"
-
-
-if [ $field_format = "enum" ]
-then
-{
-	# checking whether we are reading enum values from an existing csv file
-	enum_type=`echo $format_line | cut -d',' -f3`
-	if [ $enum_type = "csvread" ]
-	then
-	{
-		enum_filename=`echo $format_line | cut -d',' -f4`
-		enum_columnnum=`echo $format_line | cut -d',' -f5`
-		echo "DEBUG - column $enum_columnnum of file $enum_filename to be read for unique values"
-		echo -n "$field,$field_format,1" > temp/enumformatline.txt
-
-		[ ! -f "$enum_filename" ] && echo "ERROR - file $enum_filename not found" && exit 1
-		cat "$enum_filename" | cut -d'|' -f$enum_columnnum | sort | uniq | while read line
-		do
-			echo -n ",$line" >> temp/enumformatline.txt
-		done
-
-		format_line=`cat temp/enumformatline.txt`
-		rm temp/enumformatline.txt
-	}
-	fi
-
-	#use perl library to generate random enum array
-	perl enum.pl $record_count "$format_line" $value_args $distrib
-}
-else
-{
-	echo "arg3 is $arg3"
-#	perl distrib.pl $field $field_format $distrib $record_count "$arg1" "$arg2" "$arg3"
-$python3_command distrib.py "$field|$field_format|$distrib|$record_count" "$value_args" "$num_repeat|$plot_enabled"
-}
-fi
-
-;;
-
-#========================================
-"Robin")
-perl enum.pl $record_count "$format_line" $value_args $distrib
 ;;
 
 #========================================
@@ -186,16 +133,10 @@ cp temp/$copied_field.csv temp/$field.csv
 ;;
 
 #========================================
-"increment"|"normal"|"poisson"|"exponential"|"binomial"|"chi_square")
+"random"|"roundrobin"|"increment"|"normal"|"poisson"|"exponential"|"binomial"|"chi_square")
 echo "DEBUG - in common numeric distro block. format: $field_format, distrib: $distrib"
 #perl distrib.pl $field $field_format $distrib $record_count "$arg1" "$arg2" "$arg3"
 $python3_command distrib.py "$field|$field_format|$distrib|$record_count" "$value_args" "$num_repeat|$plot_enabled"
-;;
-
-#========================================
-"pattern"|"regex")
-echo "DEBUG - in pattern / regex distro block. format: $field_format, distrib: $distrib"
-perl string.pl $field $field_format $distrib $record_count $value_args
 ;;
 
 #=============================================

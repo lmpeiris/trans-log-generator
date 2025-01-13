@@ -1,0 +1,7 @@
+{
+  "type": "enum",
+  "csv_read": {
+    "csv_file": "refer-csv/csvenumreader.csv",
+    "column": 1
+  }
+}

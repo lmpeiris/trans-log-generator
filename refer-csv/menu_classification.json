@@ -1,0 +1,17 @@
+{
+  "type": "enum",
+  "elements": [
+    {
+      "enum": "C1"
+    },
+    {
+      "enum": "C2"
+    },
+    {
+      "enum": "C9"
+    },
+    {
+      "enum": "C6"
+    }
+  ]
+}

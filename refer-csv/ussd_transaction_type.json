@@ -1,0 +1,11 @@
+{
+  "type": "enum",
+  "elements": [
+    {
+      "enum": "INIT"
+    },
+    {
+      "enum": "CONT"
+    }
+  ]
+}

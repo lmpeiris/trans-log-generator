@@ -1,8 +1,9 @@
-numpy
-pandas
+numpy>=2.0.0
+pandas>=2.0.0
 sympy
 Faker
-matplotlib
+matplotlib>=2.0.0
 airspeed
-pyftpdlib
-pulsar
+pyftpdlib>=2.0.0
+pulsar>=2.0.0
+xeger
