@@ -71,10 +71,28 @@ if api.field_format == 'equation':
     from sympy.parsing.sympy_parser import parse_expr
     math_expression = api.value_args[3]
     parsed_expression = parse_expr(math_expression)
-    count = 0
+    distrib_var_cache = int(api.read_tlg_config('distrib_var_cache'))
+    if distrib_var_cache == 1:
+        print('WARN: distrib_var_cache is on. this flattens your chosen distribution to be integers')
+    index = 0
+    y_dict = {}
+    y_list = []
+    cache_hits = 0
     for i in ran_array:
-        ran_array[count] = parsed_expression.evalf(subs={x: i})
-        count += 1
+        # i gives the value distribution var
+        if distrib_var_cache == 1:
+            # if distribution variable caching is on, we are using integer to better cache
+            i = int(i)
+        if i in y_dict:
+            y = y_dict[i]
+            cache_hits += 1
+        else:
+            y = parsed_expression.evalf(subs={x: i})
+            y_dict[i] = y
+        index += 1
+        y_list.append(y)
+    print('INFO: cache hit ratio: ' + str(cache_hits/api.record_count))
+    ran_array = np.array(y_list)
 
 
 # Date conversions: cannot use numpy text save for this, using standard file write
@@ -153,6 +171,7 @@ if api.isPlotted:
 
 # if numpy write is still true, write them using numpy which is extremely fast
 if numpy_write:
+    print('Items received to save by numpy: ' + str(ran_array.size))
     api.start_timer()
     if api.field_format == 'integer':
         formatting = '%.' + '0f'
