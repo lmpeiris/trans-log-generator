@@ -1,2 +1,0 @@
-Math::Random|perl|1|This enables categorical data (enum) / one to many relations (refer) and many to many (m2m) - heaviliy important|ubuntu - libmath-random-perl
-String::Random|perl|0|regex and pattern based string generation (minor importance)|fedora package - perl-String-Random| ubuntu package - libstring-random-perl
