@@ -119,8 +119,8 @@ fi
 ;;
 
 #========================================
-"shuffle_merge"|"fake"|"regex")
-echo "DEBUG - redirecting to strinClass.py for string operation"
+"shuffle_merge"|"fake"|"regex"|"refer")
+echo "DEBUG - redirecting to stringClass.py for string operation"
 $python3_command stringClass.py "$field|$field_format|$distrib|$record_count" "$value_args" "$num_repeat"
 ;;
 
@@ -139,26 +139,10 @@ echo "DEBUG - in common numeric distro block. format: $field_format, distrib: $d
 $python3_command distrib.py "$field|$field_format|$distrib|$record_count" "$value_args" "$num_repeat|$plot_enabled"
 ;;
 
-#=============================================
-"refer")
-#logic for dependent fields on another field. A field can only depend on one field.
-#perl refer.pl <refered_fieldname> <column_number> <analysed_field>
-echo "INFO - entered refer block. field format: $field_format"
-if [ $field_format = "m2m" ]
-then
-{
-	perl m2m-refer.pl $value_args $field
-}
-else
-{
-	perl refer.pl $value_args $field
-}
-fi
-;;
 
 #=========================
 "timeseries")
-echo "INFO - enetered time series block"
+echo "INFO - entered time series block"
 $python3_command timeSeries.py "$field|$field_format|$distrib|$record_count" "$value_args" "$num_repeat"
 
 ;;

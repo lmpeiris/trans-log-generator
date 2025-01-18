@@ -17,6 +17,9 @@ class ScriptApiClass:
 
         if len(self.value_args) < 1:
             raise ScriptApiClassException("Missing value arguments. At least one required")
+        # TODO: add a json based, config specific to each field format to validate value args
+        # write a class to validate various types (ex: integer, list etc..
+        # similar to be used for UI validation later as an api service
 
         # api key fields
         if len(api_args) < 4:
