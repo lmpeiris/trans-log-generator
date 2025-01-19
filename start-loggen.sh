@@ -12,7 +12,6 @@ cd $ppss_path
 #showing scripting versions
 echo "INFO - used python version is "
 $python3_command --version
-echo "INFO - used perl version is `perl -v | grep 'This is perl'`"
 #Remove temporary folders / else logs will be appended
 echo "INFO - removing temporary files ....."
 rm  temp/*.* temp/matching-fields/*.*
@@ -51,7 +50,7 @@ do
 	#Records in the field file can be swapped when parallel processing
 	count=`echo $record_blocks | cut -d',' -f1`
 	value_field=`echo $record_blocks | cut -d',' -f2`
-        fields[$count]=$value_field
+  fields[$count]=$value_field
 	field_distrib=`echo $record_blocks | cut -d',' -f3`
 
 	#adding flags
@@ -63,7 +62,7 @@ do
 		flags="DR"
 	fi
 
-	#Dependent fields is appended last to process to avoid concurrency issues
+	#Dependent fields are processed in the 2nd ppss run to avoid concurrency issues
 	if [ $field_distrib = "refer" ] || [ $field_distrib = "duplicate" ]
 	then
 		echo "DEBUG - field $count,$value_field having $field_distrib distribution added to 2nd phase"
@@ -122,10 +121,11 @@ echo "DEBUG - verifying record count of generated files and adding them to chain
 echo -e "\033[0m"
 [ $repetition_enabled -eq 1 ] && expected_records=$((record_count_per_file*number_of_files*num_repeat)) || expected_records=$((record_count_per_file*number_of_files))
 
-for (( i = 1; $i <= $field_count; i++ ))
+# below syntax allows both key and value to be iterated
+for i in "${!fields[@]}"
 do
 {
-        if [ ${fields[i]} != "" ]
+    if [ ${fields[i]} != "" ]
 		then
 		{
 			if [ -f "temp/${fields[i]}.csv" ]
