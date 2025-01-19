@@ -1,6 +1,8 @@
 #!/usr/bin/python3
 
 import sys
+import csv
+import random
 from ScriptApiClass import ScriptTransformApi
 sys.path.insert(0, 'lib')
 from DistributionClass import DistributionClass
@@ -11,8 +13,28 @@ static_label = api.value_args[0]
 print("DEBUG - entered stringClass.py")
 api.start_timer()
 
-filename = "temp/" + str(api.field) + ".csv"
+filename = api.outfile
 file_handle = open(filename, 'w', 1024 * 1024 * 4)
+
+if api.distrib == 'refer':
+    refer_config_file = 'refer-csv/' + api.field + ".csv"
+    refer_input_file = 'temp/' + api.value_args[0] + '.csv'
+    print('DEBUG - reading configuration from ' + refer_config_file)
+    refer_config_dict = {}
+    with open(refer_config_file, 'r') as csv_handler:
+        reader = csv.reader(csv_handler)
+        for row in reader:
+            enum_list = row[1].split('|')
+            refer_config_dict[row[0]] = enum_list
+    print('INFO - found refer configuration entries: ' + str(len(refer_config_dict)))
+    print('DEBUG - reading input data from ' + refer_input_file)
+    with open(refer_input_file, 'r') as csv_handler:
+        reader = csv.reader(csv_handler)
+        for row in reader:
+            enum_list = refer_config_dict[row[0]]
+            # picking random should not be slow when only 1 element is there, no need for a if clause
+            selected_value = random.choice(enum_list)
+            file_handle.write(selected_value + '\n')
 
 if api.distrib == 'static':
     print("INFO - printing " + str(static_label) + " again and again")

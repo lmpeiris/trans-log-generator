@@ -21,7 +21,7 @@ else:
     print("DEBUG - time series generation; repeating is disabled")
 
 # convert to dataframe
-writing_df = time_series.to_frame(index=False)
+pd_series = time_series.to_series(index=None)
 print("INFO - writing time series to file")
-writing_df.to_csv(path_or_buf=filename, index=False, header=False, date_format=dt_format)
+pd_series.to_csv(path_or_buf=filename, index=False, header=False, date_format=dt_format)
 

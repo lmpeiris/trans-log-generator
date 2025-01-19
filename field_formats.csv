@@ -106,3 +106,4 @@ created,millis
 imsi,integer
 response_time,integer
 mac_address,m2m
+system_status_description,string
