@@ -1,0 +1,17 @@
+{
+  "fake": [
+    {
+      "person": {
+        "locale": "default",
+        "custom_provider": null,
+        "properties": {
+          "name": "name",
+          "address": "address",
+          "email": "email",
+          "dob": "date_of_birth",
+          "phone": "phone_number"
+        }
+      }
+    }
+  ]
+}
