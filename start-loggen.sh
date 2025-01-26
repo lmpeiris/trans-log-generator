@@ -149,7 +149,7 @@ do
 						fi
 
 					else
-						echo -e "ERROR - Record count in ${fields[i]}.csv is $actual_records expected $expected_records records ......... \033[31m [ FAILED ] \033[0m"
+						echo -e "ERROR - Record count for column $i in ${fields[i]}.csv is $actual_records expected $expected_records records ......... \033[31m [ FAILED ] \033[0m"
 					fi
 				}
 				fi

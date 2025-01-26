@@ -1,5 +1,6 @@
 {
   "type": "enum",
+  "source": "elements",
   "elements": [
     {
       "enum": "SPP_000001"

@@ -28,7 +28,7 @@ if api.field_format == 'enum':
     elements_list = []
     if api.distrib == 'percentage':
         elements = adv_conf['elements']
-        # very whether counts add up to 100, using generator expression
+        # verify whether counts add up to 100, using generator expression
         total_count = sum(x['count'] for x in elements)
         if total_count == 100:
             print('DEBUG: populating elements list for 100')
@@ -40,22 +40,23 @@ if api.field_format == 'enum':
     else:
         if api.value_args[0] != '0':
             print('WARN: to capture all enum entries, first argument should be zero. Check whether this was intended.')
-        if 'csv_read' in adv_conf:
-            # compile unique values by reading a csv
-            import csv
-            csv_file = adv_conf['csv_read']['csv_file']
-            column_index = adv_conf['csv_read']['column']
-            print('INFO: Reading column: ' + str(column_index) + ' from ' + csv_file)
-            with open(csv_file, 'r') as csvfile:
-                reader = csv.reader(csvfile, delimiter='|')
-                for row in reader:
-                    value = row[column_index]
-                    if value not in elements_list:
-                        elements_list.append(value)
-            print('DEBUG: enum records: ' + str(elements_list))
-        else:
-            elements = adv_conf['elements']
-            elements_list = [x['enum'] for x in elements]
+        match adv_conf['source']:
+            case 'csv_read':
+                # compile unique values by reading a csv
+                import csv
+                csv_file = adv_conf['csv_read']['csv_file']
+                column_index = adv_conf['csv_read']['column']
+                print('INFO: Reading column: ' + str(column_index) + ' from ' + csv_file)
+                with open(csv_file, 'r') as csvfile:
+                    reader = csv.reader(csvfile, delimiter='|')
+                    for row in reader:
+                        value = row[column_index]
+                        if value not in elements_list:
+                            elements_list.append(value)
+                print('DEBUG: enum records: ' + str(elements_list))
+            case 'elements':
+                elements = adv_conf['elements']
+                elements_list = [x['enum'] for x in elements]
         # enum matching cannot handle floats
         if distribution not in ['roundrobin', 'random']:
             ran_array = ran_array.astype(int)

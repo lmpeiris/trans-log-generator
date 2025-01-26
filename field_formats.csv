@@ -44,7 +44,7 @@ datetime,datetime
 transaction_id,integer
 msisdn,integer
 menu_classification,enum
-csvenumreader,enum,csvread,refer-csv/csvenumreader.csv,1
+csvenumreader,enum
 menu_description,enum
 user_language,string
 ussd_transaction_type,enum

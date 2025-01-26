@@ -66,15 +66,19 @@ below are examples:
 ```json
 {
   "type": "enum",
+  "source": "elements",
   "elements": [
     {
-      "enum": "Prepaid"
+      "enum": "agree",
+      "count": 45
     },
     {
-      "enum": "Delegated"
+      "enum": "deny",
+      "count": 30
     },
     {
-      "enum": "PostPaid"
+      "enum": "none",
+      "count": 25
     }
   ]
 }
