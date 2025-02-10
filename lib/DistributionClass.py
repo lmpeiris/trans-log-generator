@@ -48,7 +48,7 @@ class DistributionClass:
                 case 'random':
                     lower_bound = int(self.value_args[0])
                     upper_bound = int(self.value_args[1])
-                    if self.field_format == 'integer':
+                    if self.field_format in ['integer', 'enum']:
                         ran_array = np.random.random_integers(lower_bound, upper_bound, self.record_count)
                     else:
                         ran_array = (upper_bound - lower_bound) * np.random.random(self.record_count) + lower_bound
@@ -105,6 +105,7 @@ class DistributionClass:
         according to index list given in ran_array"""
         enum_list = []
         max_index = max(ran_array)
+        print('DEBUG: max value of ran_array: ' + str(max_index))
         if (max_index+1) > len(ran_array):
             print('ERROR: max value of ran_array cannot be larger than number of items in element_list')
         else:

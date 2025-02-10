@@ -133,7 +133,7 @@ cp temp/$copied_field.csv temp/$field.csv
 ;;
 
 #========================================
-"random"|"roundrobin"|"increment"|"normal"|"poisson"|"exponential"|"binomial"|"chi_square")
+"random"|"roundrobin"|"increment"|"normal"|"poisson"|"exponential"|"binomial"|"chi_square"|"percentage"|"biased_random")
 echo "DEBUG - in common numeric distro block. format: $field_format, distrib: $distrib"
 #perl distrib.pl $field $field_format $distrib $record_count "$arg1" "$arg2" "$arg3"
 $python3_command distrib.py "$field|$field_format|$distrib|$record_count" "$value_args" "$num_repeat|$plot_enabled"

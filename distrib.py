@@ -29,7 +29,7 @@ if api.field_format == 'enum':
     numpy_write = False
     adv_conf = api.read_adv_conf()
     elements_list = []
-    if api.distrib == 'percentage' or 'biased_random':
+    if api.distrib == 'percentage' or api.distrib == 'biased_random':
         elements = adv_conf['elements']
         # verify whether counts add up to 100, using generator expression
         total_count = sum(x['count'] for x in elements)
