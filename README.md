@@ -1,5 +1,9 @@
 # trans-log-generator
-A crude framework for trans log like data generation and post processing. Uses legacy multi-process tech for parrelism, but extreamely fast at data generation. Below is a video of it in action using default configuration (unit test configuration):
+A crude framework for trans log like data generation and post processing. Uses legacy multi-process tech for parrelism, but extreamely fast at data generation due to columnar processing.
+
+<img src="images/trans_log_generator.jpg" alt="alt text" width="256" height="256">
+
+Below is a video of it in action using default configuration (unit test configuration):
 
 [![Video Thumbnail](http://img.youtube.com/vi/kSEFrWRcbnw/0.jpg)](https://www.youtube.com/watch?v=kSEFrWRcbnw)
 
@@ -28,7 +32,10 @@ Translog generator uses the PPSS (Parallel Processing Shell Script) https://gith
 | Dependent enumuration (aka refer) | for field values depending on other field | python random |
 | Equation|f(x) of statistical distribution|sympy|
 
+# Setup
 Please see README-setup.md on how to setup dependencies, configure a translog field format file and generate data.
+
+[How to setup](README-setup.md)
 
 # Other fatures
 - Post parsing like converting to excel, json or xml or sending data to a http rest endpoint
